@@ -73,6 +73,7 @@ Route::prefix("requirements")->middleware(['TokenAuth', 'auth:sanctum'])->group(
     Route::get('view/{id}/', [RequirementController::class, 'view']);
     Route::get("needs/{need}" , [RequirementController::class , 'need_Requirement']); 
     Route::post('/', [RequirementController::class, 'store']);
+    
     Route::put('/{requirement}', [RequirementController::class, 'update']);
     Route::delete('/{requirement}', [RequirementController::class, 'destroy']);
 });

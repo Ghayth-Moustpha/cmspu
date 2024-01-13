@@ -58,7 +58,7 @@ class RequirementController extends Controller
         $requirement->fill($request->validated());
         $requirement->save();
     
-         return response( $requirement)->json( ["requirement" => $requirement], 200);
+         return response()->json( ["requirement" => $requirement], 200);
     }
     
     public function destroy(Requirement $requirement)

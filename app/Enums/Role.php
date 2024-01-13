@@ -25,7 +25,7 @@ enum Role {
     }
 
     public static function getValues(): array {
-        $values = ['Administrator', 'Customer', 'Coder' , 'Analyzer']; 
+        $values = ['Administrator', 'Customer', 'Coder' , 'Analyzer' , "Designer" , "Tester"]; 
         
         
         return $values;
