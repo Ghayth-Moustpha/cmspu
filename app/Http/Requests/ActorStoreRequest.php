@@ -4,14 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ReportStoreRequest extends FormRequest
+class ActorStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true ;
+        return true;
     }
 
     /**
@@ -19,13 +19,12 @@ class ReportStoreRequest extends FormRequest
      *
      * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255',
-            'content' => 'required|string',
-            'roles' => 'required|array',
-            'projectID' => 'required'
+            'name' => 'required|string|max:255',
+            'description' => 'required|string',
+            'project_id' => 'required'
         ];
     }
 }

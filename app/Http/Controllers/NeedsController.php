@@ -68,6 +68,14 @@ class NeedsController extends Controller
         $need->update($request->all());
         return response()->json($need);
     }
+    public function updatestatus ($id, $status ) {
+        $need = Need::find($id);
+        if (!$need) {
+            return response()->json(['message' => 'Need not found'], 404);
+        }
+        $need->update(["need_status_id" => $status ]);
+
+    }
 
     public function destroy($id)
     {

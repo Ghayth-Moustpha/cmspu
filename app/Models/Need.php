@@ -31,4 +31,7 @@ class Need extends Model
     public function rcrs () {
         return $this->hasMany(RCR::class , 'id' , 'need_id' ) ; 
     }
+    public function Requirement (){
+        return $this->hasMany(Requirement::class);
+    }
 }
