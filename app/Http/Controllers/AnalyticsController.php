@@ -22,8 +22,6 @@ class AnalyticsController extends Controller
         }
         return response()->json($analytics, 200);
     }
-
-
     public function store(Request $request)
     {
         // Validate the request data
@@ -35,23 +33,23 @@ class AnalyticsController extends Controller
         ]);
     
         // Store the file in the specified filepath
-        $filePath = $request->file('file')->store('analytics_files');
+        $filePath = $request->file('file')->store('public/analytics_files');
     
-        // Generate the download URL for the file
-        $downloadUrl = Storage::url($filePath);
+        // Remove the storage prefix from the file path
+        $downloadUrl = str_replace('public/', '', $filePath);
     
         // Create a new analytics record
         $analytics = new Analytics([
             'title' => $request->input('title'),
             'abstract' => $request->input('abstract'),
-            'filepath' => $downloadUrl, // Save the download URL in the filepath column
+            'filepath' => $downloadUrl, // Save the file path in the filepath column
             'requirement_id' => $request->input('requirement_id')
         ]);
         $analytics->save();
     
         return response()->json([
             'message' => 'Analytics record created successfully',
-            'download_url' => $downloadUrl
+            'download_url' => route('download.file', ['filepath' => urlencode($downloadUrl)])
         ], 201);
     }
 

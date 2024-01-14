@@ -11,6 +11,8 @@ use App\Http\Controllers\ActorsController;
 use App\Http\Controllers\RTMController;
 use App\Http\Controllers\RCRController;
 
+use App\Http\Controllers\FileController;
+
 use App\Http\Controllers\AnalyticsController;
 
 use App\Http\Controllers\RequirementController;
@@ -86,13 +88,15 @@ Route::prefix("RTM")->middleware(['TokenAuth', 'auth:sanctum'])->group(function 
     
 });
 Route::prefix("analytics")->middleware(['TokenAuth', 'auth:sanctum'])->group(function () {
-    Route::get('{project_id}', [AnalyticsController::class, 'index']);
+    Route::get('{req_id}', [AnalyticsController::class, 'index']);
     Route::post('', [AnalyticsController::class, 'store']);
     Route::put('', [AnalyticsController::class, 'update']);
+    Route::delete('{id}', [AnalyticsController::class, 'destroy']);
 
 
     
 });
+Route::get('storage/{folderpath}/{filePath}', [FileController::class, 'download']);
 
 Route::get('/', function () {
     return view('welcome');
