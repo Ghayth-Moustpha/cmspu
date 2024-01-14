@@ -1,15 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Analytics;
+use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
 class AnalyticsController extends Controller
 {
-    public function index()
+    public function index($req_id)
     {
-        $analytics = Analytics::all();
-        return response()->json($analytics, 200);
+        $analytics = Analytics::where('requirement_id', $req_id)->get();
+    return response()->json($analytics, 200);
     }
 
     public function show($id)
@@ -21,6 +23,7 @@ class AnalyticsController extends Controller
         return response()->json($analytics, 200);
     }
 
+
     public function store(Request $request)
     {
         // Validate the request data
@@ -30,20 +33,26 @@ class AnalyticsController extends Controller
             'requirement_id' => 'required|integer|exists:requirements,id',
             'file' => 'required|file'
         ]);
-
+    
         // Store the file in the specified filepath
         $filePath = $request->file('file')->store('analytics_files');
-
+    
+        // Generate the download URL for the file
+        $downloadUrl = Storage::url($filePath);
+    
         // Create a new analytics record
         $analytics = new Analytics([
             'title' => $request->input('title'),
             'abstract' => $request->input('abstract'),
-            'filepath' => $filePath,
+            'filepath' => $downloadUrl, // Save the download URL in the filepath column
             'requirement_id' => $request->input('requirement_id')
         ]);
         $analytics->save();
-
-        return response()->json(['message' => 'Analytics record created successfully'], 201);
+    
+        return response()->json([
+            'message' => 'Analytics record created successfully',
+            'download_url' => $downloadUrl
+        ], 201);
     }
 
     public function update(Request $request, $id)

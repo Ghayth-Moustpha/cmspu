@@ -8,8 +8,11 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\TeamsController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ActorsController;
-
+use App\Http\Controllers\RTMController;
 use App\Http\Controllers\RCRController;
+
+use App\Http\Controllers\AnalyticsController;
+
 use App\Http\Controllers\RequirementController;
 
 
@@ -77,6 +80,20 @@ Route::prefix("requirements")->middleware(['TokenAuth', 'auth:sanctum'])->group(
     Route::put('/{requirement}', [RequirementController::class, 'update']);
     Route::delete('/{requirement}', [RequirementController::class, 'destroy']);
 });
+Route::prefix("RTM")->middleware(['TokenAuth', 'auth:sanctum'])->group(function () {
+    Route::get('{project_id}/', [RTMController::class, 'index']);
+    Route::get('view/{id}/', [RTMController::class, 'view']);
+    
+});
+Route::prefix("analytics")->middleware(['TokenAuth', 'auth:sanctum'])->group(function () {
+    Route::get('{project_id}', [AnalyticsController::class, 'index']);
+    Route::post('', [AnalyticsController::class, 'store']);
+    Route::put('', [AnalyticsController::class, 'update']);
+
+
+    
+});
+
 Route::get('/', function () {
     return view('welcome');
 });
