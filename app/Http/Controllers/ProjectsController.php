@@ -21,19 +21,10 @@ class ProjectsController extends Controller
     public function index(Request $request)
     {
         // Retrieve the token from the bearer token in the request headers
-        $token = $request->bearerToken();
-        
-        if ($token) {
-            // Attempt authentication using Sanctum
-            $user = Auth::guard('sanctum')->user();
-    
-            if ($user) {
-                // User found. You can access the user's information.
-                return response()->json(['projects' => $user->projects], 200);
-            }
-        }
-    
-        // Token not found or authentication failed.
+        $user = $request->user; 
+    if ($user) 
+        return response()->json(['projects' => $user->projects], 200);
+    else 
         return response()->json([], 401);
     
     }

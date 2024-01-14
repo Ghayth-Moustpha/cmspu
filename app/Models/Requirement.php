@@ -24,4 +24,20 @@ class Requirement extends Model
     {
         return $this->belongsTo(Project::class);
     }
+    public function analytics()
+    {
+        return $this->hasMany(Analytics::class);
+    }
+    public function designs()
+    {
+        return $this->hasMany(Designs::class);
+    }
+    public function tests()
+    {
+        return $this->hasMany(Tests::class);
+    }
+    public function codes()
+    {
+        return $this->hasMany(Codes::class);
+    }
 }
